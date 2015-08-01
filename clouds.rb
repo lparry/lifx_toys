@@ -17,14 +17,14 @@ class Clouds
   def run
     while (true)
       @lights.each do |light|
-        light.set_color(random_kelvin, random_brightness, CYCLE_TIME* 1.5)
+        light.set_color("kelvin:#{random_kelvin} brightness:#{random_brightness}", CYCLE_TIME* 1.5)
         sleep(CYCLE_TIME/ @lights.count)
       end
     end
   end
 
   def random_kelvin
-    "kelvin:#{rand(MIN_KELVIN..MAX_KELVIN)}"
+    rand(MIN_KELVIN..MAX_KELVIN)
   end
 
   def random_brightness

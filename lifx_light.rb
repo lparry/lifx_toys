@@ -20,10 +20,10 @@ class LifxLight
     @updated_at = Time.now
   end
 
-  def set_color(color, brightness=0.5, duration=1.0)
-    response = HttpApi.set_color(color, brightness, duration, selector)
+  def set_color(color, duration=1.0)
+    response = HttpApi.set_color(color, duration, selector)
     if response["status"] == "ok"
-      puts "info: set #{label} to #{color}, #{brightness}, #{duration}" if ENV["DEBUG"]
+      puts "info: set #{label} to #{color}, duration:#{duration}" if ENV["DEBUG"]
       nil
     else
       puts "warning: light status - #{response}"
@@ -48,8 +48,8 @@ class LifxLight
 
   module HttpApi
 
-    def self.set_color(color, brightness, duration, selector)
-      JSON.parse(%x[curl -s -H "Authorization: Bearer #{ENV["LIFX_TOKEN"]}" -X PUT -d "color=#{color} brightness:#{brightness};duration=#{duration}" "https://api.lifx.com/v1beta1/lights/#{selector}/color"])
+    def self.set_color(color, duration, selector)
+      JSON.parse(%x[curl -s -H "Authorization: Bearer #{ENV["LIFX_TOKEN"]}" -X PUT -d "color=#{color};duration=#{duration}" "https://api.lifx.com/v1beta1/lights/#{selector}/color"])
     end
 
     def self.get_light_info(selector)

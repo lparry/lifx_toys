@@ -15,14 +15,18 @@ class Colors
   def run
     while (true)
       @lights.each do |light|
-        light.set_color(random_color, random_brightness, CYCLE_TIME* 1.5)
+        light.set_color("hue:#{random_hue} saturation:#{random_saturation} brightness:#{random_brightness}", CYCLE_TIME* 1.5)
         sleep(CYCLE_TIME/ @lights.count)
       end
     end
   end
 
-  def random_color
-    "hue:#{rand(HUE_RANGE)} saturation:#{rand(SATURATION_RANGE).to_f / 100}"
+  def random_hue
+    rand(HUE_RANGE)
+  end
+
+  def random_saturation
+    rand(SATURATION_RANGE).to_f / 100
   end
 
   def random_brightness
