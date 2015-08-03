@@ -41,6 +41,10 @@ module LifxToys
       make_request :breathe, color, options
     end
 
+    def pulse(color, options = {})
+      make_request :pulse, color, options
+    end
+
     def make_request(method_name, *args)
       HttpApi.public_send(method_name, selector, *args)
     end
