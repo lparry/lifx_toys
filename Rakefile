@@ -14,7 +14,7 @@ end
 task :default => :test
 
 
-desc 'Cloud lighting simulation on all_lights'
+desc 'Cloud lighting simulation on all lights'
 task :clouds do
   LifxToys::Clouds.new.run
 end
@@ -30,5 +30,17 @@ task :sunrise do
 end
 
 task :info do
-  puts LifxToys::LifxNetworkObject.new('all').get_info
+  puts all_lights.get_info
+end
+
+task :off do
+  puts all_lights.turn_off
+end
+
+task :on do
+  puts all_lights.turn_on
+end
+
+def all_lights
+  LifxToys::LifxNetworkObject.new('all')
 end
