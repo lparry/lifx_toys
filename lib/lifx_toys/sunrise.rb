@@ -11,21 +11,39 @@ module LifxToys
     SUNRISE_TIME =  30 * # minutes
                     60.0   # seconds
 
-    def initialize
-      @lights = LifxNetworkObject.new('all')
+    attr_reader :sunrise_time,
+                :start_brightness,
+                :start_temperature,
+                :end_brightness,
+                :end_temperature
+
+    def initialize(selector = 'all',
+                   sunrise_time = SUNRISE_TIME,
+                   start_brightness = MIN_BRIGHTNESS,
+                   start_temperature = MIN_KELVIN,
+                   end_brightness = MAX_BRIGHTNESS,
+                   end_temperature = MAX_KELVIN)
+
+      @sunrise_time = sunrise_time
+      @start_brightness = start_brightness
+      @start_temperature = start_temperature
+      @end_brightness = end_brightness
+      @end_temperature = end_temperature
+
+      @lights = LifxNetworkObject.new(selector)
     end
 
     # warning: this method takes half the sunrise time to execute
     def run
       # pre-set light color to avoid green at low brightness
-      @lights.set_color("brightness:#{MIN_BRIGHTNESS} kelvin:#{MIN_KELVIN}", 0)
-      @lights.set_color("brightness:#{MAX_BRIGHTNESS}", half_sunrise_time)
+      @lights.set_color("brightness:#{start_brightness} kelvin:#{start_temperature}", 0)
+      @lights.set_color("brightness:#{end_brightness}", half_sunrise_time)
       sleep(half_sunrise_time)
-      @lights.set_color("kelvin:#{MAX_KELVIN}", half_sunrise_time)
+      @lights.set_color("kelvin:#{end_temperature}", half_sunrise_time)
     end
 
     def half_sunrise_time
-      SUNRISE_TIME / 2
+      sunrise_time / 2
     end
   end
 end
