@@ -37,9 +37,9 @@ module LifxToys
     def run
       # pre-set light color to avoid green at low brightness
       @lights.set_color("brightness:#{start_brightness} kelvin:#{start_temperature}", duration: 0, power_on: false)
-      @lights.set_color("brightness:#{end_brightness}", half_sunrise_time)
+      @lights.set_color("brightness:#{end_brightness}", duration: half_sunrise_time)
       sleep(half_sunrise_time)
-      @lights.set_color("kelvin:#{end_temperature}", half_sunrise_time)
+      @lights.set_color("kelvin:#{end_temperature}", duration: half_sunrise_time)
     end
 
     def half_sunrise_time
