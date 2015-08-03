@@ -1,5 +1,5 @@
-require 'json'
 require 'httparty'
+require_relative 'http_api/with_default_selector'
 
 module LifxToys
   module HttpApi

@@ -46,5 +46,5 @@ task :toggle do
 end
 
 def all_lights
-  LifxToys::LifxNetworkObject.new('all')
+  LifxToys::HttpApi.with_default_selector('all')
 end

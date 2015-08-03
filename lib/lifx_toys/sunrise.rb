@@ -30,7 +30,7 @@ module LifxToys
       @end_brightness = end_brightness
       @end_temperature = end_temperature
 
-      @lights = LifxNetworkObject.new(selector)
+      @lights = HttpApi.with_default_selector(selector)
     end
 
     # warning: this method takes half the sunrise time to execute

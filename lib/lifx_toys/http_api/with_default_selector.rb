@@ -1,4 +1,4 @@
-require_relative 'http_api'
+require_relative '../http_api'
 
 module LifxToys
   module HttpApi

@@ -1,5 +1,5 @@
 require 'forwardable'
-require_relative 'lifx_network_object'
+require_relative 'http_api'
 
 module LifxToys
   class LifxLight
@@ -24,7 +24,7 @@ module LifxToys
     end
 
     def update_info
-      @data ||= OpenStruct.new(@http_api.get_info))
+      @data ||= OpenStruct.new(@http_api.get_info)
       @updated_at = Time.now
     end
 
