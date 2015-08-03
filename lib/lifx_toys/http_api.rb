@@ -19,7 +19,7 @@ module LifxToys
                      headers: authorization_headers)
       end
 
-      def set_power_state (selector, state, options = {duration: 2})
+      def set_power_state(selector, state, options = {duration: 2})
         HTTParty.put(power_url(selector),
                      headers: authorization_headers,
                      query: options.merge({
@@ -27,15 +27,33 @@ module LifxToys
                      }))
       end
 
-      def toggle_power_state (selector)
+      def toggle_power_state(selector)
         HTTParty.post(toggle_power_url(selector),
                      headers: authorization_headers)
+      end
+
+      def breathe(selector, color, options: {
+                                    # from_color: current_bulb_color,
+                                      period:     1.0,
+                                      cycles:     1.0,
+                                      persist:    false,
+                                      power_on:   true,
+                                      peak:       0.5 })
+        HTTParty.post(breathe_url(selector),
+                     headers: authorization_headers,
+                     query: options.merge({
+                       color: color
+                     }))
       end
 
       private
 
       def info_url(selector)
         "https://api.lifx.com/v1beta1/lights/#{selector}"
+      end
+
+      def breathe_url(selector)
+        "#{info_url(selector)}/effects/breathe"
       end
 
       def toggle_power_url(selector)
