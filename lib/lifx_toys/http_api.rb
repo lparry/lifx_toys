@@ -44,8 +44,7 @@ module LifxToys
                      headers: authorization_headers)
       end
 
-      def breathe(selector, color, options: {
-                                    # from_color: current_bulb_color,
+      def breathe(selector, color, options =  {
                                       period:     1.0,
                                       cycles:     1.0,
                                       persist:    false,
@@ -58,7 +57,7 @@ module LifxToys
                      }))
       end
 
-      def pulse(selector, color, options: {
+      def pulse(selector, color, options = {
                                     # from_color: current_bulb_color,
                                       period:     1.0,
                                       cycles:     1.0,
