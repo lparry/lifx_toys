@@ -6,12 +6,12 @@ module LifxToys
 
     extend Forwardable
     def_delegators :@data, :label, :connected, :power, :color, :brightness, :product_name, :last_seen, :seconds_since_seen
-    def_delegators :@network_object, :set_color
+    def_delegators :@http_api, :set_color
 
     attr_reader :light_id
 
     def self.get_lights
-      @lights ||= LifxNetworkObject.new("all").get_info.map do |data|
+      @lights ||= HttpApi.with_default_selector("all").get_info.map do |data|
         LifxLight.new(data)
       end
     end
@@ -20,11 +20,11 @@ module LifxToys
       @light_id = data["id"]
       @data = OpenStruct.new(data)
       @updated_at = Time.now
-      @network_object = LifxNetworkObject.new(selector)
+      @http_api = HttpApi.with_default_selector(selector)
     end
 
     def update_info
-      @data ||= OpenStruct.new(LifxNetworkObject.get_info(selector))
+      @data ||= OpenStruct.new(@http_api.get_info))
       @updated_at = Time.now
     end
 

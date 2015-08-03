@@ -5,6 +5,10 @@ module LifxToys
   module HttpApi
     class << self
 
+      def with_default_selector(selector)
+        WithDefaultSelector.new(selector)
+      end
+
       def set_color(selector, color, options = { duration: 2.0,
                                                  power_on: true})
         HTTParty.put(color_url(selector),
