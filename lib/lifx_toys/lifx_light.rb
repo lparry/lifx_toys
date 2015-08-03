@@ -1,11 +1,12 @@
 require 'forwardable'
-require_relative 'lifx_light'
+require_relative 'lifx_network_object'
 
 module LifxToys
   class LifxLight
 
     extend Forwardable
     def_delegators :@data, :label, :connected, :power, :color, :brightness, :product_name, :last_seen, :seconds_since_seen
+    def_delegators :@network_object, :set_color
 
     attr_reader :light_id
 
@@ -16,24 +17,14 @@ module LifxToys
     end
 
     def initialize(data)
-      @data = OpenStruct.new(data)
       @light_id = data["id"]
+      @data = OpenStruct.new(data)
       @updated_at = Time.now
-    end
-
-    def set_color(color, duration=1.0)
-      response = HttpApi.set_color(selector, color, duration)
-      if response.success?
-        puts "info: set #{label} to #{color}, duration:#{duration}" if ENV["DEBUG"]
-        nil
-      else
-        puts "warning: light status - #{response}"
-        -1
-      end
+      @network_object = LifxNetworkObject.new(selector)
     end
 
     def update_info
-      @data ||= OpenStruct.new(HttpApi.get_light_info(selector))
+      @data ||= OpenStruct.new(LifxNetworkObject.get_info(selector))
       @updated_at = Time.now
     end
 
