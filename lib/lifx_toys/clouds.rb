@@ -17,7 +17,7 @@ module LifxToys
     def run
       while (true)
         @lights.each do |light|
-          light.set_color("kelvin:#{random_kelvin} brightness:#{random_brightness}", CYCLE_TIME* 1.5)
+          light.set_color("kelvin:#{random_kelvin} brightness:#{random_brightness}", duration: CYCLE_TIME* 1.5)
           sleep(CYCLE_TIME/ @lights.count)
         end
       end

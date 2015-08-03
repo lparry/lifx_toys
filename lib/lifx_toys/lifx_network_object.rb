@@ -14,22 +14,22 @@ module LifxToys
       HttpApi.get_light_info(selector)
     end
 
-    def turn_on(duration = 2)
-      HttpApi.set_power_state(selector, 'on', duration)
+    def turn_on(options = {})
+      HttpApi.set_power_state(selector, 'on', options)
     end
 
     def toggle
       HttpApi.toggle_power_state(selector)
     end
 
-    def turn_off(duration = 2)
-      HttpApi.set_power_state(selector, 'off', duration)
+    def turn_off(options = {})
+      HttpApi.set_power_state(selector, 'off', options)
     end
 
-    def set_color(color, duration=1.0)
-      response = HttpApi.set_color(selector, color, duration)
+    def set_color(color, options = {})
+      response = HttpApi.set_color(selector, color, options)
       if response.success?
-        puts "info: set #{selector} to #{color}, duration:#{duration}" if ENV["DEBUG"]
+        puts "info: set #{selector} to #{color}" if ENV["DEBUG"]
         nil
       else
         puts "warning: light status - #{response}"
