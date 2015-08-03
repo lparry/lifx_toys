@@ -11,10 +11,18 @@ module LifxToys
                      headers: authorization_headers,
                      query: options.merge({
                        color: color
-                     }))
+                     })).tap do |response|
+      if response.success?
+                       puts "info: set #{selector} to #{color}" if ENV["DEBUG"]
+        nil
+      else
+        puts "warning: light status - #{response}"
+        -1
+      end
+                     end
       end
 
-      def get_light_info(selector)
+      def get_info(selector)
         HTTParty.get(info_url(selector),
                      headers: authorization_headers)
       end

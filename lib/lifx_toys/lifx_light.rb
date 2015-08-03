@@ -11,7 +11,7 @@ module LifxToys
     attr_reader :light_id
 
     def self.get_lights
-      @lights ||= HttpApi.get_light_info("all").map do |data|
+      @lights ||= LifxNetworkObject.new("all").get_info.map do |data|
         LifxLight.new(data)
       end
     end

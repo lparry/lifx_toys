@@ -1,5 +1,4 @@
-require 'forwardable'
-require_relative 'lifx_light'
+require_relative 'http_api'
 
 module LifxToys
   class LifxNetworkObject
@@ -11,30 +10,19 @@ module LifxToys
     end
 
     def get_info
-      make_request :get_light_info
+      make_request :get_info
     end
 
-    def turn_on(options = {})
-      make_request :set_power_state, 'on', options
+    def set_power_state(state, options = {})
+      make_request :set_power_state, state, options
     end
 
     def toggle
       make_request :toggle_power_state
     end
 
-    def turn_off(options = {})
-      make_request :set_power_state, 'off', options
-    end
-
     def set_color(color, options = {})
       response = make_request :set_color, color, options
-      if response.success?
-        puts "info: set #{selector} to #{color}" if ENV["DEBUG"]
-        nil
-      else
-        puts "warning: light status - #{response}"
-        -1
-      end
     end
 
     def breathe(color, options = {})

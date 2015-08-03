@@ -34,11 +34,11 @@ task :info do
 end
 
 task :off do
-  puts all_lights.turn_off
+  puts all_lights.set_power_state 'off'
 end
 
 task :on do
-  puts all_lights.turn_on
+  puts all_lights.set_power_state 'on'
 end
 
 task :toggle do
