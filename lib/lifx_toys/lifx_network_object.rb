@@ -18,6 +18,10 @@ module LifxToys
       HttpApi.set_power_state(selector, 'on', duration)
     end
 
+    def toggle
+      HttpApi.toggle_power_state(selector)
+    end
+
     def turn_off(duration = 2)
       HttpApi.set_power_state(selector, 'off', duration)
     end

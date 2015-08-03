@@ -41,6 +41,10 @@ task :on do
   puts all_lights.turn_on
 end
 
+task :toggle do
+  puts all_lights.toggle
+end
+
 def all_lights
   LifxToys::LifxNetworkObject.new('all')
 end

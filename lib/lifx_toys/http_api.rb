@@ -28,10 +28,19 @@ module LifxToys
                      })
       end
 
+      def toggle_power_state (selector)
+        HTTParty.post(toggle_power_url(selector),
+                     headers: authorization_headers)
+      end
+
       private
 
       def info_url(selector)
         "https://api.lifx.com/v1beta1/lights/#{selector}"
+      end
+
+      def toggle_power_url(selector)
+        "https://api.lifx.com/v1beta1/lights/#{selector}/toggle"
       end
 
       def power_url(selector)
