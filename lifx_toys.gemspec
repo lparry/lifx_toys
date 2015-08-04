@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["lparry@gmail.com"]
 
   spec.summary       = %q{Lucas's LIFX toys}
-  spec.description   = %q{ruby wrapper and toys for the LIFX cloud api}
+  spec.description   = %q{Toys for the LIFX bulbs}
   spec.homepage      = "https://github.com/lparry/lifx_toys"
   spec.license       = "MIT"
 
@@ -25,4 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry", "~> 0.10"
   spec.add_dependency             "json", "~> 1.8"
   spec.add_dependency             "httparty", "~> 0.13"
+  spec.add_dependency             "lifx", "~> 0.4"
+  spec.add_dependency             "lifx_http", "~> 0.2"
 end

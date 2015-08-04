@@ -1,4 +1,4 @@
-require_relative "lifx_light"
+require "lifx_http"
 module LifxToys
   class Sunrise
 
@@ -30,7 +30,7 @@ module LifxToys
       @end_brightness = end_brightness
       @end_temperature = end_temperature
 
-      @lights = HttpApi.with_default_selector(selector)
+      @lights = LifxHttp::Api.with_default_selector(selector)
     end
 
     # warning: this method takes half the sunrise time to execute

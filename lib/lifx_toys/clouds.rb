@@ -1,4 +1,4 @@
-require_relative "lifx_light"
+require 'lifx_http'
 module LifxToys
   class Clouds
 
@@ -11,7 +11,7 @@ module LifxToys
     CYCLE_TIME = 5.0
 
     def initialize
-      @lights = LifxLight.get_lights.select{|x| x.connected }
+      @lights = LifxHttp::LifxLight.get_lights.select{|x| x.connected }
     end
 
     def run

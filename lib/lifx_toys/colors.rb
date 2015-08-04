@@ -1,4 +1,4 @@
-require_relative "lifx_light"
+require "lifx_http"
 
 module LifxToys
   class Colors
@@ -10,7 +10,7 @@ module LifxToys
     CYCLE_TIME = 10.0
 
     def initialize
-      @lights = LifxLight.get_lights.select{|x| x.connected }
+      @lights = LifxHttp::LifxLight.get_lights.select{|x| x.connected }
     end
 
     def run

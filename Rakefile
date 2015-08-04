@@ -1,6 +1,5 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
-require "lifx_toys"
 require "lifx_toys/clouds"
 require "lifx_toys/colors"
 require "lifx_toys/sunrise"
@@ -33,24 +32,4 @@ end
 desc 'slow rainbow'
 task :rainbow do
   LifxToys::Rainbow.new.run
-end
-
-task :info do
-  puts all_lights.get_info
-end
-
-task :off do
-  puts all_lights.set_power_state 'off'
-end
-
-task :on do
-  puts all_lights.set_power_state 'on'
-end
-
-task :toggle do
-  puts all_lights.toggle
-end
-
-def all_lights
-  LifxToys::HttpApi.with_default_selector('all')
 end

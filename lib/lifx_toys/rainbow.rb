@@ -1,11 +1,11 @@
-require_relative "lifx_light"
+require "lifx_http"
 module LifxToys
   class Rainbow
 
     CYCLE_TIME = 1
 
     def initialize
-      @lights = LifxLight.get_lights.select{|x| x.connected }
+      @lights = LifxHttp::LifxLight.get_lights.select{|x| x.connected }
       puts "Running with #{light_count} lights..."
     end
 
