@@ -17,7 +17,8 @@ module LifxToys
                        color: color
                      })).tap do |response|
       if response.success?
-                       puts "info: set #{selector} to #{color}" if ENV["DEBUG"]
+        puts "info: set #{selector} to #{color}" if ENV["DEBUG"]
+        puts response.to_s if ENV["DEBUG"]
         nil
       else
         puts "warning: light status - #{response}"
