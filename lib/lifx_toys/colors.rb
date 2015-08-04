@@ -1,41 +1,18 @@
 require "lifx"
+require_relative 'lan_client_base'
 
 module LifxToys
-  class Colors
+  class Colors < LanClientBase
 
     HUE_RANGE = 0..360
     BRIGHTNESS_RANGE = 20..80
     SATURATION_RANGE = 40..100
 
-    CYCLE_TIME = 10.0
-
-    attr_reader :client
-
-    def initialize
-      @client = LIFX::Client.lan
-
-      client.discover!
+    def fade_duration
+      10.0
     end
 
-    def lights
-      client.lights
-    end
-
-    def light_count
-      lights.count
-    end
-
-    def run
-      while (true)
-        lights.each do |light|
-          light.set_color(random_color, duration: CYCLE_TIME * 1.5)
-          sleep(CYCLE_TIME/ light_count)
-        end
-        client.flush
-      end
-    end
-
-    def random_color
+    def color_for_light(_)
       LIFX::Color.hsb(random_hue, random_saturation, random_brightness)
     end
 

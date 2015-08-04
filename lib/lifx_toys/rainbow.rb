@@ -1,40 +1,34 @@
-require "lifx"
+require 'lifx'
+require_relative 'lan_client_base'
+
 module LifxToys
-  class Rainbow
+  class Rainbow < LanClientBase
 
-    CYCLE_TIME = 0.1
-
-    attr_reader :client
-
-    def initialize
-      @client = LIFX::Client.lan
-
-      client.discover!
+    def fade_duration
+      0.1
     end
 
-    def lights
-      @client.lights
+    def inter_light_wait
+      0
     end
 
-    def light_count
-      lights.count
+    def post_client_flush_wait
+      fade_duration
     end
 
-    def run
-      while (true)
-        (0...360).each do |hue|
-          lights.each_with_index do |light, light_index|
-            light.set_color(color_for_light(hue, light_index), duration: CYCLE_TIME)
-          end
-          client.flush
-          sleep CYCLE_TIME
-        end
-      end
-    end
+    def color_for_light(index)
+      increment_base_hue if index == 0
 
-    def color_for_light(base_color, index)
       offset = (360/light_count) * index
-      LIFX::Color.hsb((base_color + offset) % 360, 1, 1)
+      LIFX::Color.hsb((base_hue + offset) % 360, 1, 1)
+    end
+
+    def increment_base_hue
+      @base_hue = (base_hue + 1) % 360
+    end
+
+    def base_hue
+      @base_hue || 0
     end
 
   end

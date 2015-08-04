@@ -1,39 +1,18 @@
 require 'lifx'
+require_relative 'lan_client_base'
+
 module LifxToys
-  class Clouds
+  class Clouds < LanClientBase
 
     KELVIN_RANGE = 2500..9000
     BRIGHTNESS_RANGE = 10..100
 
-    CYCLE_TIME = 5.0
-
-    attr_reader :client
-
-    def initialize
-      @client = LIFX::Client.lan
-
-      client.discover!
+    def fade_duration
+      5.0
     end
 
-    def lights
-      client.lights
-    end
-
-    def light_count
-      lights.count
-    end
-
-    def run
-      while (true)
-        lights.each do |light|
-          light.set_color(random_white, duration: CYCLE_TIME * 1.5)
-          sleep(CYCLE_TIME / light_count)
-        end
-        client.flush
-      end
-    end
-
-    def random_white
+    def color_for_light(_)
+      # random white light
       LIFX::Color.hsbk(0, 0, random_brightness, random_kelvin)
     end
 
@@ -44,5 +23,6 @@ module LifxToys
     def random_brightness
       rand(BRIGHTNESS_RANGE).to_f / 100
     end
+
   end
 end
