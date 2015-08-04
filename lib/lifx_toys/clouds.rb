@@ -1,34 +1,48 @@
-require 'lifx_http'
+require 'lifx'
 module LifxToys
   class Clouds
 
-    MIN_KELVIN = 2500
-    MAX_KELVIN = 9000
-
-    MIN_BRIGHTNESS = 10
-    MAX_BRIGHTNESS = 100
+    KELVIN_RANGE = 2500..9000
+    BRIGHTNESS_RANGE = 10..100
 
     CYCLE_TIME = 5.0
 
+    attr_reader :client
+
     def initialize
-      @lights = LifxHttp::LifxLight.get_lights.select{|x| x.connected }
+      @client = LIFX::Client.lan
+
+      client.discover!
+    end
+
+    def lights
+      client.lights
+    end
+
+    def light_count
+      lights.count
     end
 
     def run
       while (true)
-        @lights.each do |light|
-          light.set_color("kelvin:#{random_kelvin} brightness:#{random_brightness}", duration: CYCLE_TIME* 1.5)
-          sleep(CYCLE_TIME/ @lights.count)
+        lights.each do |light|
+          light.set_color(random_white, duration: CYCLE_TIME * 1.5)
+          sleep(CYCLE_TIME / light_count)
         end
+        client.flush
       end
     end
 
+    def random_white
+      LIFX::Color.hsbk(0, 0, random_brightness, random_kelvin)
+    end
+
     def random_kelvin
-      rand(MIN_KELVIN..MAX_KELVIN)
+      rand(KELVIN_RANGE)
     end
 
     def random_brightness
-      rand(MIN_BRIGHTNESS..MAX_BRIGHTNESS).to_f / 100
+      rand(BRIGHTNESS_RANGE).to_f / 100
     end
   end
 end
