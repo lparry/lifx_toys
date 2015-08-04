@@ -1,33 +1,40 @@
-require "lifx_http"
+require "lifx"
 module LifxToys
   class Rainbow
 
-    CYCLE_TIME = 1
+    CYCLE_TIME = 0.1
+
+    attr_reader :client
 
     def initialize
-      @lights = LifxHttp::LifxLight.get_lights.select{|x| x.connected }
-      puts "Running with #{light_count} lights..."
+      @client = LIFX::Client.lan
+
+      client.discover!
+    end
+
+    def lights
+      @client.lights
     end
 
     def light_count
-      @lights.count
+      lights.count
     end
 
     def run
-      @lights.each{|x| x.set_color("saturation:1 brightness:1", duration: 0)}
       while (true)
-        (0...36).each do |color|
-          @lights.each_with_index do |light, light_number|
-            light.set_color(color_for_light(color * 10, light_number), duration: CYCLE_TIME)
+        (0...360).each do |hue|
+          lights.each_with_index do |light, light_index|
+            light.set_color(color_for_light(hue, light_index), duration: CYCLE_TIME)
           end
-          sleep(CYCLE_TIME)
+          client.flush
+          sleep CYCLE_TIME
         end
       end
     end
 
     def color_for_light(base_color, index)
       offset = (360/light_count) * index
-      "hue:#{((base_color) + offset) % 360}"
+      LIFX::Color.hsb((base_color + offset) % 360, 1, 1)
     end
 
   end
