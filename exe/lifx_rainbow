@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative "../lib/lifx_toys/rainbow"
+
+LifxToys::Rainbow.new.run

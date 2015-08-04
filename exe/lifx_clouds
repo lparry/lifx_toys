@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative "../lib/lifx_toys/clouds"
+
+LifxToys::Clouds.new.run
